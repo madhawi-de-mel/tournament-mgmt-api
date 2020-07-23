@@ -40,7 +40,6 @@ class TeamViewSet(viewsets.ModelViewSet):
     #     return serializer_class.data
 
 
-
 class PlayerViewSet(viewsets.ModelViewSet):
     """
        API endpoint that allows users to be viewed or edited.
