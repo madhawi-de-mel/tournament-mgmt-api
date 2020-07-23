@@ -20,12 +20,6 @@ class Round(models.Model):
         return self.name
 
 
-class Match(models.Model):
-    round = models.ForeignKey(Round, on_delete=models.CASCADE)
-    court_name = models.CharField(max_length=200)
-    date = models.DateTimeField('date published', null=True)
-
-
 class Coach(models.Model):
     name = models.CharField(max_length=200)
     experience = models.IntegerField(default=0)
@@ -42,8 +36,10 @@ class Team(models.Model):
         return self.name
 
 
-class PlayedMatch(models.Model):
-    match = models.ForeignKey(Match, on_delete=models.CASCADE)
+class Match(models.Model):
+    round = models.ForeignKey(Round, on_delete=models.CASCADE)
+    court_name = models.CharField(max_length=200)
+    date = models.DateTimeField('date published', null=True)
     team_one = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="team_one")
     team_two = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="team_two")
     team_one_score = models.IntegerField(default=0)
@@ -60,11 +56,10 @@ class Player(models.Model):
     age = models.IntegerField(default=0)
     height = models.FloatField(default=0)
     height_unit = models.CharField(max_length=200)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
 
 class PlayerPlayedMatch(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     personal_score = models.IntegerField(default=0)
-
-
