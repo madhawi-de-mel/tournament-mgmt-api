@@ -1,8 +1,6 @@
-import itertools
-import logging
 import math
 
-from management_app.models import Player, PlayerPlayedMatch, Team
+from management_app.models import Player, Team
 
 
 def get_all_teams():
@@ -12,7 +10,7 @@ def get_all_teams():
 
 
 def get_team(team_id: int):
-    """Return """
+    """Return selected team"""
     team = Team.objects.filter(pk=team_id)
     return team
 
@@ -50,6 +48,7 @@ def get_best_players(team_id: int):
 
 
 def set_average_score(player: Player):
+    """Calculate average score of the player in the matches he played"""
     score_details = player.playerplayedmatch_set.all()
     score_sum = 0
     # default score and match count set to 0
