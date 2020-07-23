@@ -1,6 +1,8 @@
 import math
 
-from management_app.models import Player, Team
+from django.db.models import Q
+
+from management_app.models import Player, Team, Match
 
 
 def get_all_teams():
@@ -11,7 +13,23 @@ def get_all_teams():
 
 def get_team(team_id: int):
     """Return selected team"""
-    team = Team.objects.filter(pk=team_id)
+    team = Team.objects.get(pk=team_id)
+    matches = Match.objects.filter(Q(team_one=team_id) | Q(team_two=team_id))
+    score_sum = 0
+    team.average_score = 0
+
+    # filter teams who played at least one match
+    if matches is not None and len(matches) > 0:
+
+        # calculate team average score
+        for match in matches:
+            if match.team_one_id == team_id:
+                score_sum = score_sum + match.team_one_score
+            else:
+                score_sum = score_sum + match.team_two_score
+        team_average = score_sum / len(matches)
+        team.average_score = team_average
+
     return team
 
 
@@ -38,7 +56,7 @@ def get_best_players(team_id: int):
 
     # calculate 90th percentile position (rounding up), 1 is deducted for compatibility with array index
     percentile_position = math.ceil(len(players_with_scores) * 0.1) - 1
-    for player_position in range(percentile_position, len(players_with_scores)):
+    for player_position in range(percentile_position, len(players_with_scores) - 1):
         best_players.append(players_with_scores[player_position])
 
     # sorting in the reverse order so that player with highest score comes to top
@@ -58,7 +76,7 @@ def set_average_score(player: Player):
     # calculate average score for player
     if score_details is not None:
         player.number_of_matches_played = len(score_details)
-        if len(score_details) > 0:
+        if player.number_of_matches_played > 0:
             for match in score_details:
                 score_sum = score_sum + match.personal_score
             player.average_score = score_sum / len(score_details)
