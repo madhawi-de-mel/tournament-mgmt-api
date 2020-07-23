@@ -30,6 +30,7 @@ class Coach(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=200)
+    average_score = models.FloatField(default=0)
     coach = models.ForeignKey(Coach, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -56,6 +57,7 @@ class Player(models.Model):
     age = models.IntegerField(default=0)
     height = models.FloatField(default=0)
     height_unit = models.CharField(max_length=200)
+    average_score = models.FloatField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
 
