@@ -1,6 +1,6 @@
 [
   {
-    "model": "management_app.tournament",
+    "model": "management_app.Tournament",
     "pk": 1,
     "fields": {
       "name": "Basketball Tournament",
@@ -9,13 +9,80 @@
     }
   },
   {
-    "model": "management_app.round",
-    "pk": 2,
+    "model": "management_app.Round",
+    "pk": 1,
     "fields": {
       "name": "First Round",
-      "number_of_matches": "4",
+      "number_of_matches": 8,
       "round_number": 1,
       "tournament": 1
+    }
+  },
+  {
+    "model": "management_app.Round",
+    "pk": 2,
+    "fields": {
+      "name": "Second Round",
+      "number_of_matches": 4,
+      "round_number": 2,
+      "tournament": 1
+    }
+  },
+   {
+    "model": "management_app.Match",
+    "pk": 1,
+    "fields": {
+      "court_name": "ABC Court",
+      "round": 1
+    }
+  }
+  ,
+  {
+    "model": "management_app.Match",
+    "pk": 2,
+    "fields": {
+      "court_name": "ABC Court",
+      "round": 2
+    }
+  }
+  ,
+   {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 1,
+    "fields": {
+      "player": 1,
+      "match": 1,
+      "personal_score": 11
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 2,
+    "fields": {
+      "player": 1,
+      "match": 2,
+      "personal_score": 15
+    }
+  }
+  ,
+  {
+    "model": "management_app.Player",
+    "pk": 1,
+    "fields": {
+      "name": "Andrew John",
+      "age": 25,
+      "height": 190,
+      "height_unit": "cm"
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 2,
+    "fields": {
+      "name": "Nick Steve",
+      "age": 26,
+      "height": 195,
+      "height_unit": "cm"
     }
   }
 ]

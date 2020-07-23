@@ -23,7 +23,7 @@ class Round(models.Model):
 class Match(models.Model):
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     court_name = models.CharField(max_length=200)
-    date = models.DateTimeField('date published')
+    date = models.DateTimeField('date published', null=True)
 
 
 class Coach(models.Model):
@@ -57,6 +57,7 @@ class PlayedMatch(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=200)
+    age = models.IntegerField(default=0)
     height = models.FloatField(default=0)
     height_unit = models.CharField(max_length=200)
 
@@ -66,16 +67,4 @@ class PlayerPlayedMatch(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     personal_score = models.IntegerField(default=0)
 
-
-class User(models.Model):
-    user_name = models.CharField(max_length=200)
-    key = models.CharField(max_length=200)
-    role = models.CharField(max_length=200)
-
-
-class Session(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_time = models.DateTimeField('date published')
-    end_time = models.DateTimeField('date published')
-    status = models.CharField(max_length=200)
 
