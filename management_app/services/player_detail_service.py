@@ -27,7 +27,7 @@ from management_app.models import Player, Team, Match
 #     return set_player_average_score(player)
 
 
-def get_best_players(team_id: int):
+def get_best_players(team_id: int, percentile: int = 90):
     """Return the players of the team who has average score in the 90 percentile across the team"""
     team = Team.objects.get(pk=team_id)
     players = team.player_set.all()
@@ -37,14 +37,14 @@ def get_best_players(team_id: int):
     for player in players:
         # Players who haven't played a single match are not considered for calculation
         if player.playerplayedmatch_set is not None and len(player.playerplayedmatch_set.all()) > 0:
-            players_with_scores.append(set_player_average_score(player))
+            players_with_scores.append(player)
 
     # sort players in ascending order
     players_with_scores.sort(key=lambda p: p.average_score)
 
     # calculate 90th percentile position (rounding up), 1 is deducted for compatibility with array index
-    percentile_position = math.ceil(len(players_with_scores) * 0.1) - 1
-    for player_position in range(percentile_position, len(players_with_scores) - 1):
+    percentile_position = math.ceil(len(players_with_scores) * percentile / 100) - 1
+    for player_position in range(percentile_position, len(players_with_scores) ):
         best_players.append(players_with_scores[player_position])
 
     # sorting in the reverse order so that player with highest score comes to top
