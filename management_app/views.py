@@ -1,19 +1,14 @@
-from django.http import HttpResponse
+from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
+from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.views import APIView
 
 from management_app.models import Coach, Team, Player
 from management_app.serializers import TeamSerializer, CoachSerializer, PlayerSerializer
 
-
-# def index(request):
-#     a = get_player_details(1)
-#     b = get_player_details(2)
-#     c = get_best_players(1)
-#     d = get_best_players(2)
-#     e = get_team(1)
-#     f = get_team(3)
-#     return HttpResponse("Hello, world. You're at the management_app. ")
+from management_app.services.player_detail_service import get_best_players
 
 
 class CoachViewSet(viewsets.ModelViewSet):
@@ -28,16 +23,8 @@ class TeamViewSet(viewsets.ModelViewSet):
     """
        API endpoint that allows users to be viewed or edited.
        """
-    # def list(self, request, *args, **kwargs):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
-    # return HttpResponse(get_all_teams())
-
-    # @action(detail=True, methods=['get'])
-    # def get_team(self, request):
-    #     team = get_team(request)
-    #     serializer_class = TeamSerializer
-    #     return serializer_class.data
 
 
 class PlayerViewSet(viewsets.ModelViewSet):
@@ -46,3 +33,17 @@ class PlayerViewSet(viewsets.ModelViewSet):
        """
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
+
+
+class BestPlayersView(APIView):
+    def get(self, request):
+        try:
+            if len(request.query_params) == 0 or request.query_params['team-id'] is None:
+                return HttpResponseBadRequest("bank id not specified")
+            team_id = request.query_params['team-id']
+            data = serializers.serialize('json', get_best_players(team_id))
+            return HttpResponse(data, content_type="application/json", status=200)
+        except ObjectDoesNotExist as e:
+            return HttpResponseNotFound(e)
+        except MultiValueDictKeyError:
+            return HttpResponseBadRequest("bank id not specified")

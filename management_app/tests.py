@@ -1,9 +1,4 @@
-# import unittest
-#
 from django.test import TestCase
-#
-#
-from management_app.models import Team, Player
 from management_app.services.player_detail_service import get_best_players, set_team_average, set_player_average_score
 
 
@@ -43,4 +38,10 @@ class PlayerDetailsTest(TestCase):
         # check if sort is working
         self.assertTrue(best_players[0].average_score >= best_players[1].average_score)
         self.assertTrue(best_players[1].average_score >= best_players[2].average_score)
+        assert True
+
+    def test_get_best_player_invalid_team(self):
+        best_players = get_best_players(78, 90)
+        self.assertIsNotNone(best_players)
+        self.assertEquals(len(best_players), 0)
         assert True

@@ -42,13 +42,14 @@ def get_best_players(team_id: int, percentile: int = 90):
     # sort players in ascending order
     players_with_scores.sort(key=lambda p: p.average_score)
 
-    # calculate 90th percentile position (rounding up), 1 is deducted for compatibility with array index
-    percentile_position = math.ceil(len(players_with_scores) * percentile / 100) - 1
-    for player_position in range(percentile_position, len(players_with_scores) ):
-        best_players.append(players_with_scores[player_position])
+    if len(players_with_scores) > 0:
+        # calculate 90th percentile position (rounding up), 1 is deducted for compatibility with array index
+        percentile_position = math.ceil(len(players_with_scores) * percentile / 100) - 1
+        for player_position in range(percentile_position, len(players_with_scores)):
+            best_players.append(players_with_scores[player_position])
 
-    # sorting in the reverse order so that player with highest score comes to top
-    best_players.sort(key=lambda p: p.average_score, reverse=True)
+        # sorting in the reverse order so that player with highest score comes to top
+        best_players.sort(key=lambda p: p.average_score, reverse=True)
 
     return best_players
 
