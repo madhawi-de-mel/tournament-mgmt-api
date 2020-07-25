@@ -5,26 +5,29 @@ from django.db.models import Q
 from management_app.models import Player, Team, Match, Coach
 
 
-# def get_all_teams():
-#     """Return all teams"""
-#     teams = Team.objects.all()
-#     for team in teams:
-#         set_team_average(team, Match.objects.filter(Q(team_one=team.pk) | Q(team_two=team.pk)))
-#     return teams
+def get_all_teams():
+    """Return all teams"""
+    return Team.objects.all()
 
 
-# def get_team(team_id: int):
-#     """Return selected team with average score"""
-#     team = Team.objects.get(pk=team_id)
-#     matches = Match.objects.filter(Q(team_one=team_id) | Q(team_two=team_id))
-#     set_team_average(team, matches)
-#     return team
+def get_team(team_id: int):
+    """Return selected team with average score"""
+    return Team.objects.get(pk=team_id)
 
 
-# def get_player_details(player_id: int):
-#     """Return details of the given player such as name, height, average score, number of matches"""
-#     player: Player = Player.objects.get(pk=player_id)
-#     return set_player_average_score(player)
+def get_players(team_id: int = -1, player_id: int = -1):
+    """Return players"""
+    if player_id > -1:
+        return Player.objects.get(pk=player_id)
+    if team_id > -1:
+        return Player.objects.filter(team_id=team_id)
+
+    return Player.objects.all()
+
+
+def get_player_details(player_id: int):
+    """Return details of the given player such as name, height, average score, number of matches"""
+    return Player.objects.get(pk=player_id)
 
 
 def get_best_players(team_id: int, percentile: int = 90):
@@ -98,6 +101,7 @@ def set_player_average_score():
             player.save()
 
 
-def get_team_of_coach(user_id):
-    coach = Coach.objects.get(user=user_id)
+def get_team_of_coach(coach_user_id):
+    """Returns the team-id of the team, coach in charge of"""
+    coach = Coach.objects.get(user=coach_user_id)
     return coach.team.pk

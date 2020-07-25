@@ -1,22 +1,36 @@
+import logging
 from datetime import datetime
 
 from django.contrib.auth.models import Group, User
 from django.core.exceptions import MiddlewareNotUsed
+from django.core.management import call_command
+from django.db import IntegrityError
 
 from management_app.services.match_summary_service import set_won_by
 from management_app.services.player_detail_service import set_player_average_score, set_team_average
 
 
 class StartupMiddleware(object):
+    logger = logging.getLogger(__name__)
+
     def __init__(self, param):
-        print('Startup Running')
-        # self.create_user_groups()
-        # self.create_users()
+        self.logger.info('Setup started')
+        call_command('makemigrations', 'management_app')
+        call_command('migrate', 'management_app')
+        call_command('migrate')
+        try:
+            self.create_user_groups()
+            self.create_users()
+            self.logger.info('Created users and groups')
+        except IntegrityError:
+            self.logger.info('Users already exists')
+        call_command('loaddata', 'tournament.json')
+        self.logger.info('Loaded data')
         set_team_average()
         set_player_average_score()
         set_won_by()
-        print('Startup complete')
-        raise MiddlewareNotUsed('Startup complete')
+        print('Setup complete')
+        raise MiddlewareNotUsed('Setup complete')
 
     @staticmethod
     def create_user_groups():

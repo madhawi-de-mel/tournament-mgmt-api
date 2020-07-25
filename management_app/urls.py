@@ -5,8 +5,8 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'coaches', views.CoachViewSet)
-router.register(r'teams', views.TeamViewSet)
-router.register(r'players', views.PlayerViewSet)
+# router.register(r'teams', views.TeamViewSet)
+# router.register(r'players', views.PlayerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -15,5 +15,6 @@ urlpatterns = [
     path('rounds/', views.RoundView.as_view(), name='rounds'),
     path('matches/', views.MatchView.as_view(), name='matches'),
     path('summary/', views.SummaryView.as_view(), name='summary'),
-    path('login/', views.LoginView.as_view(), name='login'),
+    path('teams/', views.TeamView.as_view(), name='teams'),
+    path('players/', views.PlayerView.as_view(), name='players'),
 ]
