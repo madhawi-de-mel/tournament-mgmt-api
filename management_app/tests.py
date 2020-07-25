@@ -1,4 +1,6 @@
 from django.test import TestCase
+
+from management_app.services.match_summary_service import get_tournament_summary
 from management_app.services.player_detail_service import get_best_players, set_team_average, set_player_average_score
 
 
@@ -45,3 +47,11 @@ class PlayerDetailsTest(TestCase):
         self.assertIsNotNone(best_players)
         self.assertEquals(len(best_players), 0)
         assert True
+
+    # def test_resolution_for_best_players(self):
+    #     resolver = resolve('/management_app/best-players')
+    #     self.assertEqual(resolver.func.cls, BestPlayersView)
+
+    def test_get_tournament_summary(self):
+        summery = get_tournament_summary()
+        self.assertIsNotNone(summery)

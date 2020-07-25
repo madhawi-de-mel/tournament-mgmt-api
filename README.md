@@ -12,4 +12,6 @@ Execute following commands to load data to DB
 
 `python manage.py migrate management_app`
 
+`python manage.py runserver` 
+
 `python manage.py loaddata tournament.json`

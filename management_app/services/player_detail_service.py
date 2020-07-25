@@ -2,7 +2,7 @@ import math
 
 from django.db.models import Q
 
-from management_app.models import Player, Team, Match
+from management_app.models import Player, Team, Match, Coach
 
 
 # def get_all_teams():
@@ -96,3 +96,8 @@ def set_player_average_score():
                     score_sum = score_sum + match.personal_score
                 player.average_score = score_sum / len(score_details)
             player.save()
+
+
+def get_team_of_coach(user_id):
+    coach = Coach.objects.get(user=user_id)
+    return coach.team.pk

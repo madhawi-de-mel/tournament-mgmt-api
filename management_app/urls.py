@@ -11,5 +11,9 @@ router.register(r'players', views.PlayerViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('best_players/', views.BestPlayersView.as_view(), name='best_players'),
+    path('best-players/', views.BestPlayersView.as_view(), name='best_players'),
+    path('rounds/', views.RoundView.as_view(), name='rounds'),
+    path('matches/', views.MatchView.as_view(), name='matches'),
+    path('summary/', views.SummaryView.as_view(), name='summary'),
+    path('login/', views.LoginView.as_view(), name='login'),
 ]

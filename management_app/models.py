@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -23,6 +24,7 @@ class Round(models.Model):
 class Coach(models.Model):
     name = models.CharField(max_length=200)
     experience = models.IntegerField(default=0)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -31,7 +33,7 @@ class Coach(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=200)
     average_score = models.FloatField(default=0)
-    coach = models.ForeignKey(Coach, on_delete=models.CASCADE)
+    coach = models.OneToOneField(Coach, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return self.name
@@ -41,15 +43,11 @@ class Match(models.Model):
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     court_name = models.CharField(max_length=200)
     date = models.DateTimeField('date published', null=True)
-    team_one = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="team_one")
-    team_two = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="team_two")
+    team_one = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team_one')
+    team_two = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team_two')
     team_one_score = models.IntegerField(default=0)
     team_two_score = models.IntegerField(default=0)
-
-    def won_by(self):
-        if self.team_one_score > self.team_two_score:
-            return self.team_one
-        return self.team_two
+    won_by = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='won_by', null=True)
 
 
 class Player(models.Model):
@@ -59,6 +57,7 @@ class Player(models.Model):
     height_unit = models.CharField(max_length=200)
     average_score = models.FloatField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
 
 class PlayerPlayedMatch(models.Model):

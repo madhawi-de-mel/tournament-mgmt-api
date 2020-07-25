@@ -29,11 +29,32 @@
     }
   },
   {
+    "model": "management_app.Round",
+    "pk": 3,
+    "fields": {
+      "name": "Semi Final Round",
+      "number_of_matches": 2,
+      "round_number": 3,
+      "tournament": 1
+    }
+  },
+  {
+    "model": "management_app.Round",
+    "pk": 4,
+    "fields": {
+      "name": "Grand Final Round",
+      "number_of_matches": 1,
+      "round_number": 4,
+      "tournament": 1
+    }
+  },
+  {
     "model": "management_app.Coach",
     "pk": 1,
     "fields": {
       "name": "John Doily",
-      "experience": 5
+      "experience": 5,
+      "user": 4
     }
   },
   {
@@ -85,6 +106,42 @@
     }
   },
   {
+    "model": "management_app.Match",
+    "pk": 3,
+    "fields": {
+      "court_name": "LMN Court",
+      "round": 2,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 41,
+      "team_two_score": 29
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 4,
+    "fields": {
+      "court_name": "GHI Court",
+      "round": 3,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 40,
+      "team_two_score": 50
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 5,
+    "fields": {
+      "court_name": "PQR Court",
+      "round": 4,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 40,
+      "team_two_score": 50
+    }
+  },
+  {
     "model": "management_app.Player",
     "pk": 1,
     "fields": {
@@ -92,7 +149,8 @@
       "age": 25,
       "height": 190,
       "height_unit": "cm",
-      "team": 1
+      "team": 1,
+      "user": 3
     }
   },
   {
