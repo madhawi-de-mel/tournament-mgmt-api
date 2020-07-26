@@ -36,11 +36,15 @@ class IsActiveListSerializer(serializers.ListSerializer):
 
 
 class UserSerializer(Serializer):
-    def get_dump_object(self, obj):
-        user_list = []
-        mapped_object = {
-            'user_name': obj.user_name,
-            'first_name': obj.first_name,
-            'last_name': obj.last_name
+    @staticmethod
+    def get_dump_object(profile, **kwargs):
+        mapped_user = {
+            'user_name': profile.user.username,
+            'first_name': profile.user.first_name,
+            'last_name': profile.user.last_name,
+            'user_id': profile.user.pk,
+            'login_count': profile.login_count,
+            'time_spent': profile.time_spent,
+            'login_status': profile.login_status,
         }
-        return user_list
+        return mapped_user

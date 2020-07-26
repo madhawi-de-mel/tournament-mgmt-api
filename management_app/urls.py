@@ -15,5 +15,4 @@ urlpatterns = [
     path('team-details/', views.TeamDetailView.as_view(), name='team details'),
     path('players/', views.PlayerView.as_view(), name='players'),
     path('statistics/', views.StatisticsView.as_view(), name='statistics'),
-    path('site-users/', views.SiteUserView.as_view(), name='users')
 ]

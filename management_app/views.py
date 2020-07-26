@@ -8,15 +8,15 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from management_app.constants.group_permission import GroupPermission
 from management_app.models import Team, Round, Match, UserProfile
 from management_app.constants.user_group import UserGroup
 from management_app.permissions.stats_permission import StatsPermission
 from management_app.serializers import TeamSerializer, RoundSerializer, MatchSerializer, StatsSerializer, \
-    UserSerializer, IsActiveListSerializer
+    UserSerializer
 
 from management_app.services.player_detail_service import get_best_players, get_team_of_coach, get_all_teams, get_team, \
     get_players
+from management_app.services.site_statistics_service import get_site_statistics
 
 
 class RoundViewSet(viewsets.ModelViewSet):
@@ -135,20 +135,11 @@ class PlayerView(APIView):
 
 
 class StatisticsView(APIView):
-
     @staticmethod
     @permission_required('management_app.view_stats')
     def get(request):
-        # Only users/groups with permission can access site usage stats
-        data = serializers.serialize('json', UserProfile.objects.all())
-        return HttpResponse(data, content_type="application/json", status=200)
-
-
-class SiteUserView(APIView):
-
-    @permission_required('management_app.view_stats')
-    def get(self, request):
-        # Only users/groups with permission can access site users
-        # data = serializers.serialize('json', User.objects.all())
-        data = UserSerializer.get_dump_object(User.objects.all())
-        return HttpResponse(data, content_type="application/json", status=200)
+        try:
+            # Only users/groups with permission can access site users
+            return HttpResponse(get_site_statistics(), content_type="application/json", status=200)
+        except ObjectDoesNotExist as e:
+            return HttpResponseNotFound(e)
