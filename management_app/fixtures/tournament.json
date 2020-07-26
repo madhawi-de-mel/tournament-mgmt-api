@@ -145,23 +145,23 @@
     "model": "management_app.Player",
     "pk": 1,
     "fields": {
-      "name": "Andrew John",
+      "name": "Riane James",
       "age": 25,
       "height": 190,
       "height_unit": "cm",
-      "team": 1,
-      "user": 3
+      "team": 1
     }
   },
   {
     "model": "management_app.Player",
     "pk": 2,
     "fields": {
-      "name": "Riane James",
+      "name": "Andrew John",
       "age": 27,
       "height": 191,
       "height_unit": "cm",
-      "team": 1
+      "team": 1,
+      "user": 3
     }
   },
   {

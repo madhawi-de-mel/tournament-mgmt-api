@@ -40,7 +40,11 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 MIDDLEWARE = [
     'management_app.middleware.startup.StartupMiddleware',
     'django.middleware.security.SecurityMiddleware',

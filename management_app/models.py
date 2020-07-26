@@ -40,7 +40,7 @@ class Team(models.Model):
 
 
 class Match(models.Model):
-    round = models.ForeignKey(Round, on_delete=models.CASCADE)
+    round = models.ForeignKey(Round, on_delete=models.CASCADE, related_name='matches')
     court_name = models.CharField(max_length=200)
     date = models.DateTimeField('date published', null=True)
     team_one = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team_one')

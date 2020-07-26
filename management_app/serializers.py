@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from management_app.models import Team, Player, Coach
+from management_app.models import Team, Player, Coach, Round, Match
 
 
 class TeamSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,10 +9,16 @@ class TeamSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['name', 'coach', 'average_score']
 
 
-class CoachSerializer(serializers.HyperlinkedModelSerializer):
+class RoundSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Coach
-        fields = ['experience', 'name']
+        model = Round
+        fields = ['name', 'number_of_matches', 'round_number', 'matches']
+
+
+class MatchSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Match
+        fields = ['round', 'court_name', 'team_one', 'team_two', 'team_one_score', 'team_two_score', 'won_by']
 
 
 class PlayerSerializer(serializers.HyperlinkedModelSerializer):
