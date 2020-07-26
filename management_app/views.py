@@ -1,5 +1,5 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Group, User
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
@@ -8,9 +8,12 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from management_app.models import Team, Round, Match
-from management_app.reponse_models.UserGroup import UserGroup
-from management_app.serializers import TeamSerializer, RoundSerializer, MatchSerializer
+from management_app.constants.group_permission import GroupPermission
+from management_app.models import Team, Round, Match, UserProfile
+from management_app.constants.user_group import UserGroup
+from management_app.permissions.stats_permission import StatsPermission
+from management_app.serializers import TeamSerializer, RoundSerializer, MatchSerializer, StatsSerializer, \
+    UserSerializer, IsActiveListSerializer
 
 from management_app.services.player_detail_service import get_best_players, get_team_of_coach, get_all_teams, get_team, \
     get_players
@@ -40,6 +43,24 @@ class TeamViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
+    http_method_names = ['get']
+
+
+class StatisticsViewSet(viewsets.ModelViewSet):
+    """
+          API endpoint that allows admins to view site statistics"""
+    permission_classes = [IsAuthenticated, StatsPermission]
+    queryset = UserProfile.objects.all()
+    serializer_class = StatsSerializer
+    http_method_names = ['get']
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+          API endpoint that allows admins to view site users"""
+    permission_classes = [IsAuthenticated, StatsPermission]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     http_method_names = ['get']
 
 
@@ -111,3 +132,23 @@ class PlayerView(APIView):
             data = serializers.serialize('json', [get_players(request.user.player.team_id, request.user.player.id)])
             return HttpResponse(data, content_type="application/json", status=200)
         return HttpResponse('Unauthorized', status=401)
+
+
+class StatisticsView(APIView):
+
+    @staticmethod
+    @permission_required('management_app.view_stats')
+    def get(request):
+        # Only users/groups with permission can access site usage stats
+        data = serializers.serialize('json', UserProfile.objects.all())
+        return HttpResponse(data, content_type="application/json", status=200)
+
+
+class SiteUserView(APIView):
+
+    @permission_required('management_app.view_stats')
+    def get(self, request):
+        # Only users/groups with permission can access site users
+        # data = serializers.serialize('json', User.objects.all())
+        data = UserSerializer.get_dump_object(User.objects.all())
+        return HttpResponse(data, content_type="application/json", status=200)

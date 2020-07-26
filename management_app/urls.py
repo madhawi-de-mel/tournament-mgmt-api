@@ -12,6 +12,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('best-players/', views.BestPlayersView.as_view(), name='best_players'),
-    path('team-details/', views.TeamDetailView.as_view(), name='teams'),
+    path('team-details/', views.TeamDetailView.as_view(), name='team details'),
     path('players/', views.PlayerView.as_view(), name='players'),
+    path('statistics/', views.StatisticsView.as_view(), name='statistics'),
+    path('site-users/', views.SiteUserView.as_view(), name='users')
 ]
