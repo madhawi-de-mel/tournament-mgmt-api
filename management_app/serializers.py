@@ -48,3 +48,34 @@ class UserSerializer(Serializer):
             'login_status': profile.login_status,
         }
         return mapped_user
+
+
+class TournamentDetailsSerializer(Serializer):
+    @staticmethod
+    def get_dump_object(rounds, **kwargs):
+        round_array = []
+        for round_instance in rounds:
+            match_array = []
+            for match in round_instance.matches.all():
+                mapped_match = {
+                    'court_name': match.court_name,
+                    'team_one': match.team_one.name,
+                    'team_two': match.team_two.name,
+                    'team_one_score': match.team_one_score,
+                    'team_two_score': match.team_two_score,
+                    'won_by': match.won_by.name,
+                    'match_id': match.pk
+                }
+                match_array.append(mapped_match)
+            mapped_round = {
+                'matches': match_array,
+                'name': round_instance.name,
+                'number_of_matches': round_instance.number_of_matches,
+                'round_number': round_instance.round_number,
+                'round_id': round_instance.pk
+            }
+            round_array.append(mapped_round)
+        data = {
+            'rounds': round_array
+        }
+        return data

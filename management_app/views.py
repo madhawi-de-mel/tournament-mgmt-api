@@ -8,14 +8,13 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from management_app.models import Team, Round, Match, UserProfile
+from management_app.models import Team, Round, Match
 from management_app.constants.user_group import UserGroup
-from management_app.serializers import TeamSerializer, RoundSerializer, MatchSerializer, StatsSerializer, \
-    UserSerializer
+from management_app.serializers import TeamSerializer, RoundSerializer, TournamentDetailsSerializer
 
 from management_app.services.tournament_detail_service import get_best_players, get_team_of_coach, get_all_teams, \
     get_team, \
-    get_players
+    get_players, get_tournament_summary
 from management_app.services.site_statistics_service import get_site_statistics
 
 
@@ -33,7 +32,7 @@ class MatchViewSet(viewsets.ModelViewSet):
        API endpoint that allows matches to be viewed only, only authenticated users can access"""
     permission_classes = [IsAuthenticated]
     queryset = Match.objects.all()
-    serializer_class = MatchSerializer
+    serializer_class = TournamentDetailsSerializer
     http_method_names = ['get']
 
 
@@ -123,5 +122,15 @@ class StatisticsView(APIView):
         try:
             # Only users/groups with permission can access site users
             return HttpResponse(get_site_statistics(), content_type="application/json", status=200)
+        except ObjectDoesNotExist as e:
+            return HttpResponseNotFound(e)
+
+
+class RoundsView(APIView):
+    @staticmethod
+    @login_required()
+    def get(request):
+        try:
+            return HttpResponse(get_tournament_summary(), content_type="application/json", status=200)
         except ObjectDoesNotExist as e:
             return HttpResponseNotFound(e)
