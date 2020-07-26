@@ -6,7 +6,7 @@ from management_app.models import Team, Player, Coach, Round, Match
 class TeamSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Team
-        fields = ['name', 'coach', 'average_score']
+        fields = ['name']
 
 
 class RoundSerializer(serializers.HyperlinkedModelSerializer):
