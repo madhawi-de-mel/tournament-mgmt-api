@@ -12,9 +12,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('best-players/', views.BestPlayersView.as_view(), name='best_players'),
-    # path('rounds/', views.RoundView.as_view(), name='rounds'),
-    # path('matches/', views.MatchView.as_view(), name='matches'),
-    # path('summary/', views.SummaryView.as_view(), name='summary'),
     path('team-details/', views.TeamDetailView.as_view(), name='teams'),
     path('players/', views.PlayerView.as_view(), name='players'),
 ]

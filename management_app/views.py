@@ -1,11 +1,8 @@
-import json
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
-from django.forms import model_to_dict
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -14,7 +11,6 @@ from rest_framework.views import APIView
 from management_app.models import Team, Round, Match
 from management_app.reponse_models.UserGroup import UserGroup
 from management_app.serializers import TeamSerializer, RoundSerializer, MatchSerializer
-from management_app.services.match_summary_service import get_rounds, get_matches, get_tournament_summary
 
 from management_app.services.player_detail_service import get_best_players, get_team_of_coach, get_all_teams, get_team, \
     get_players
@@ -71,39 +67,6 @@ class BestPlayersView(APIView):
             return HttpResponseNotFound(e)
         except MultiValueDictKeyError:
             return HttpResponseBadRequest("team-id not specified")
-
-
-class RoundView(APIView):
-    @staticmethod
-    @login_required
-    def get(request):
-        try:
-            return HttpResponse(serializers.serialize('json', get_rounds()), content_type="application/json",
-                                status=200)
-        except ObjectDoesNotExist as e:
-            return HttpResponseNotFound(e)
-
-
-class MatchView(APIView):
-    @staticmethod
-    @login_required
-    def get(request):
-        try:
-            return HttpResponse(serializers.serialize('json', get_matches()), content_type="application/json",
-                                status=200)
-        except ObjectDoesNotExist as e:
-            return HttpResponseNotFound(e)
-
-
-class SummaryView(APIView):
-    @staticmethod
-    def get(request):
-        try:
-
-            return JsonResponse(json.dumps(model_to_dict(get_tournament_summary(1))), content_type="application/json",
-                                status=200)
-        except ObjectDoesNotExist as e:
-            return HttpResponseNotFound(e)
 
 
 class TeamDetailView(APIView):
