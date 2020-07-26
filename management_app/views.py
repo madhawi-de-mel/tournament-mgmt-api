@@ -14,7 +14,7 @@ from management_app.permissions.stats_permission import StatsPermission
 from management_app.serializers import TeamSerializer, RoundSerializer, MatchSerializer, StatsSerializer, \
     UserSerializer
 
-from management_app.services.player_detail_service import get_best_players, get_team_of_coach, get_all_teams, get_team, \
+from management_app.services.tournament_detail_service import get_best_players, get_team_of_coach, get_all_teams, get_team, \
     get_players
 from management_app.services.site_statistics_service import get_site_statistics
 

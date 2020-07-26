@@ -1,8 +1,10 @@
 import math
 
+from django.core import serializers
 from django.db.models import Q
 
-from management_app.models import Player, Team, Match, Coach
+from management_app.models import Player, Team, Match, Coach, Round
+from management_app.reponse_models.match_summary import TournamentRound, TournamentSummary
 
 
 def get_all_teams():
@@ -105,3 +107,27 @@ def get_team_of_coach(coach_user_id):
     """Returns the team-id of the team, coach in charge of"""
     coach = Coach.objects.get(user=coach_user_id)
     return coach.team.pk
+
+
+def set_won_by():
+    matches = Match.objects.all()
+    for match in matches:
+        if match.team_one_score > match.team_two_score:
+            match.won_by = match.team_one
+        else:
+            match.won_by = match.team_two
+        match.save()
+
+
+def get_tournament_summary(tournament_id):
+    rounds = Round.objects.filter(tournament=tournament_id)
+    tournament_rounds = []
+    for round_instance in rounds:
+        tournament_round = TournamentRound(serializers.serialize('json', round_instance.match_set.all()))
+        # for match in round_instance.match_set.all():
+        #     pass
+        #     tournament_round.matches.append[tournament_match]
+        #     tournament_match = match
+        tournament_rounds.append(tournament_round)
+
+    return TournamentSummary(tournament_rounds)

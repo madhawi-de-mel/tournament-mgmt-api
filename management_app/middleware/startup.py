@@ -11,8 +11,7 @@ from django.utils import timezone
 from management_app.constants import group_permission
 from management_app.constants.group_permission import GroupPermission
 from management_app.models import UserProfile
-from management_app.services.match_summary_service import set_won_by
-from management_app.services.player_detail_service import set_player_average_score, set_team_average
+from management_app.services.tournament_detail_service import set_player_average_score, set_team_average, set_won_by
 
 
 class StartupMiddleware(object):
