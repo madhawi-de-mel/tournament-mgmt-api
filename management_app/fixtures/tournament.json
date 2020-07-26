@@ -1,0 +1,265 @@
+[
+  {
+    "model": "management_app.Tournament",
+    "pk": 1,
+    "fields": {
+      "name": "Basketball Tournament",
+      "country": "England",
+      "year": 2020
+    }
+  },
+  {
+    "model": "management_app.Round",
+    "pk": 1,
+    "fields": {
+      "name": "First Round",
+      "number_of_matches": 8,
+      "round_number": 1,
+      "tournament": 1
+    }
+  },
+  {
+    "model": "management_app.Round",
+    "pk": 2,
+    "fields": {
+      "name": "Second Round",
+      "number_of_matches": 4,
+      "round_number": 2,
+      "tournament": 1
+    }
+  },
+  {
+    "model": "management_app.Round",
+    "pk": 3,
+    "fields": {
+      "name": "Semi Final Round",
+      "number_of_matches": 2,
+      "round_number": 3,
+      "tournament": 1
+    }
+  },
+  {
+    "model": "management_app.Round",
+    "pk": 4,
+    "fields": {
+      "name": "Grand Final Round",
+      "number_of_matches": 1,
+      "round_number": 4,
+      "tournament": 1
+    }
+  },
+  {
+    "model": "management_app.Coach",
+    "pk": 1,
+    "fields": {
+      "name": "John Doily",
+      "experience": 5,
+      "user": 4
+    }
+  },
+  {
+    "model": "management_app.Coach",
+    "pk": 2,
+    "fields": {
+      "name": "Arthur Weasels",
+      "experience": 10
+    }
+  },
+  {
+    "model": "management_app.Team",
+    "pk": 1,
+    "fields": {
+      "name": "Golden Eagles",
+      "coach": 1
+    }
+  },
+  {
+    "model": "management_app.Team",
+    "pk": 2,
+    "fields": {
+      "name": "Shooting Star",
+      "coach": 2
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 1,
+    "fields": {
+      "court_name": "ABC Court",
+      "round": 1,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 50,
+      "team_two_score": 45
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 2,
+    "fields": {
+      "court_name": "XYZ Court",
+      "round": 1,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 34,
+      "team_two_score": 42
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 3,
+    "fields": {
+      "court_name": "LMN Court",
+      "round": 2,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 41,
+      "team_two_score": 29
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 4,
+    "fields": {
+      "court_name": "GHI Court",
+      "round": 3,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 40,
+      "team_two_score": 50
+    }
+  },
+  {
+    "model": "management_app.Match",
+    "pk": 5,
+    "fields": {
+      "court_name": "PQR Court",
+      "round": 4,
+      "team_one": 1,
+      "team_two": 2,
+      "team_one_score": 40,
+      "team_two_score": 50
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 1,
+    "fields": {
+      "name": "Riane James",
+      "age": 25,
+      "height": 190,
+      "height_unit": "cm",
+      "team": 1
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 2,
+    "fields": {
+      "name": "Andrew John",
+      "age": 27,
+      "height": 191,
+      "height_unit": "cm",
+      "team": 1,
+      "user": 3
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 3,
+    "fields": {
+      "name": "Liam Oliver",
+      "age": 28,
+      "height": 194,
+      "height_unit": "cm",
+      "team": 1
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 4,
+    "fields": {
+      "name": "Lucas Benjamin",
+      "age": 21,
+      "height": 195,
+      "height_unit": "cm",
+      "team": 1
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 5,
+    "fields": {
+      "name": "Elijah Mason",
+      "age": 23,
+      "height": 191,
+      "height_unit": "cm",
+      "team": 1
+    }
+  },
+  {
+    "model": "management_app.Player",
+    "pk": 11,
+    "fields": {
+      "name": "Nick Steve",
+      "age": 26,
+      "height": 195,
+      "height_unit": "cm",
+      "team": 2
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 1,
+    "fields": {
+      "player": 1,
+      "match": 1,
+      "personal_score": 11
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 2,
+    "fields": {
+      "player": 1,
+      "match": 2,
+      "personal_score": 15
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 3,
+    "fields": {
+      "player": 2,
+      "match": 1,
+      "personal_score": 19
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 4,
+    "fields": {
+      "player": 2,
+      "match": 2,
+      "personal_score": 10
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 5,
+    "fields": {
+      "player": 3,
+      "match": 1,
+      "personal_score": 5
+    }
+  },
+  {
+    "model": "management_app.PlayerPlayedMatch",
+    "pk": 6,
+    "fields": {
+      "player": 3,
+      "match": 2,
+      "personal_score": 7
+    }
+  }
+]
