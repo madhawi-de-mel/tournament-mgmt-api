@@ -56,6 +56,7 @@ class Player(models.Model):
     height = models.FloatField(default=0)
     height_unit = models.CharField(max_length=200)
     average_score = models.FloatField(default=0)
+    number_of_matches_played = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 

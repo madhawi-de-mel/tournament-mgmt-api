@@ -91,7 +91,7 @@ def set_player_average_score():
         player.number_of_matches_played = 0
         player.average_score = 0
 
-        # calculate average score for player
+        # calculate average score, played match count for player
         if score_details is not None:
             player.number_of_matches_played = len(score_details)
             if player.number_of_matches_played > 0:
