@@ -1,11 +1,45 @@
 [
   {
+    "model": "management_app.Coach",
+    "pk": 1,
+    "fields": {
+      "name": "John Doily",
+      "experience": 5,
+      "user": 4
+    }
+  },
+  {
+    "model": "management_app.Coach",
+    "pk": 2,
+    "fields": {
+      "name": "Arthur Weasels",
+      "experience": 10
+    }
+  },
+  {
+    "model": "management_app.Team",
+    "pk": 1,
+    "fields": {
+      "name": "Golden Eagles",
+      "coach": 1
+    }
+  },
+  {
+    "model": "management_app.Team",
+    "pk": 2,
+    "fields": {
+      "name": "Shooting Star",
+      "coach": 2
+    }
+  },
+  {
     "model": "management_app.Tournament",
     "pk": 1,
     "fields": {
       "name": "Basketball Tournament",
       "country": "England",
-      "year": 2020
+      "year": 2020,
+      "won_by": 1
     }
   },
   {
@@ -46,39 +80,6 @@
       "number_of_matches": 1,
       "round_number": 4,
       "tournament": 1
-    }
-  },
-  {
-    "model": "management_app.Coach",
-    "pk": 1,
-    "fields": {
-      "name": "John Doily",
-      "experience": 5,
-      "user": 4
-    }
-  },
-  {
-    "model": "management_app.Coach",
-    "pk": 2,
-    "fields": {
-      "name": "Arthur Weasels",
-      "experience": 10
-    }
-  },
-  {
-    "model": "management_app.Team",
-    "pk": 1,
-    "fields": {
-      "name": "Golden Eagles",
-      "coach": 1
-    }
-  },
-  {
-    "model": "management_app.Team",
-    "pk": 2,
-    "fields": {
-      "name": "Shooting Star",
-      "coach": 2
     }
   },
   {

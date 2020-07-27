@@ -4,17 +4,17 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'rounds', views.RoundViewSet)
-router.register(r'matches', views.MatchViewSet)
-router.register(r'teams', views.TeamViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('statistics/', views.StatisticsView.as_view(), name='statistics'),
+    path('rounds/', views.RoundsView.as_view(), name='rounds'),
     path('best-players/', views.BestPlayersView.as_view(), name='best_players'),
-    # path('rounds/', views.RoundView.as_view(), name='rounds'),
-    # path('matches/', views.MatchView.as_view(), name='matches'),
-    # path('summary/', views.SummaryView.as_view(), name='summary'),
-    path('team-details/', views.TeamDetailView.as_view(), name='teams'),
+    path('teams/', views.TeamView.as_view(), name='teams'),
+    path('teams/<int:id>/', views.TeamDetailView.as_view(), name='team_details'),
     path('players/', views.PlayerView.as_view(), name='players'),
+    path('coaches/', views.CoachView.as_view(), name='coaches'),
+    path('coaches/<int:id>/', views.CoachDetailView.as_view(), name='coach_details'),
+
 ]
