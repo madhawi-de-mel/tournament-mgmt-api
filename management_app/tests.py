@@ -11,7 +11,7 @@ from management_app.utils.tournament_detail_util import get_best_players, \
     get_coach_details, get_team_of_coach
 
 
-class PlayerDetailsTest(TestCase):
+class TournamentTest(TestCase):
     logger = logging.getLogger(__name__)
 
     def setUp(self):
