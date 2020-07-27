@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 from django.core import serializers
@@ -14,7 +16,7 @@ from management_app.serializers import TeamSerializer, RoundSerializer, Tourname
 
 from management_app.utils.tournament_detail_util import get_best_players, get_team_of_coach, get_all_teams, \
     get_team, \
-    get_players, get_tournament_summary
+    get_players, get_tournament_summary, get_teams_with_details
 from management_app.utils.site_statistics_util import get_site_statistics
 
 
@@ -36,13 +38,13 @@ class MatchViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
 
-class TeamViewSet(viewsets.ModelViewSet):
-    """
-       API endpoint that allows all teams to be view only, only authenticated users can access"""
-    permission_classes = [IsAuthenticated]
-    queryset = Team.objects.all()
-    serializer_class = TeamSerializer
-    http_method_names = ['get']
+# class TeamDetailViewSet(viewsets.ModelViewSet):
+#     """
+#        API endpoint that allows all teams to be view only, only authenticated users can access"""
+#     permission_classes = [IsAuthenticated]
+#     queryset = Team.objects.all()
+#     serializer_class = TeamSerializer
+#     http_method_names = ['get']
 
 
 class BestPlayersView(APIView):
@@ -75,21 +77,31 @@ class TeamDetailView(APIView):
 
     @staticmethod
     @login_required()
-    def get(request):
-        # if request is by an admin, all teams are returned
-        if Group.objects.get(user=request.user).name == UserGroup.ADMIN.value[0]:
-            data = serializers.serialize('json', get_all_teams())
-            return HttpResponse(data, content_type="application/json", status=200)
+    def get(request, **kwargs):
+        team_id = kwargs.get('id')
+        try:
+            # if request is by an admin, any team details given by team id are returned with average scores
+            if Group.objects.get(user=request.user).name == UserGroup.ADMIN.value[0]:
+                return HttpResponse(serializers.serialize('json', [get_team(kwargs.get('id'))]),
+                                    content_type="application/json", status=200)
 
-        # if request is by a coach, results for his team is returned
-        if Group.objects.get(user=request.user).name == UserGroup.COACH.value[0]:
-            data = serializers.serialize('json', get_team(get_team_of_coach(request.user.id)))
-            return HttpResponse(data, content_type="application/json", status=200)
+            # if request is by a coach for his team, results for his team is returned
+            if Group.objects.get(user=request.user).name == UserGroup.COACH.value[0]:
+                coach_team_id = get_team_of_coach(request.user.id)
+                if team_id == coach_team_id:
+                    return HttpResponse(serializers.serialize('json', [get_team(coach_team_id)]),
+                                        content_type="application/json", status=200)
 
-        # if request is by a player, results for his team is returned
-        if Group.objects.get(user=request.user).name == UserGroup.PLAYER.value[0]:
-            data = serializers.serialize('json', [get_team(request.user.player.team_id)])
-            return HttpResponse(data, content_type="application/json", status=200)
+            # if request is by a player for his team, results for his team is returned
+            if Group.objects.get(user=request.user).name == UserGroup.PLAYER.value[0]:
+                if team_id == request.user.player.team_id:
+                    data = serializers.serialize('json', [get_team(request.user.player.team_id)])
+                    return HttpResponse(data, content_type="application/json", status=200)
+
+        except ObjectDoesNotExist as e:
+            logging.getLogger(__name__).debug(e)
+            return HttpResponseNotFound(e)
+
         return HttpResponse('Unauthorized', status=401)
 
 
@@ -132,5 +144,15 @@ class RoundsView(APIView):
     def get(request):
         try:
             return HttpResponse(get_tournament_summary(), content_type="application/json", status=200)
+        except ObjectDoesNotExist as e:
+            return HttpResponseNotFound(e)
+
+
+class TeamView(APIView):
+    @staticmethod
+    @login_required()
+    def get(request):
+        try:
+            return HttpResponse(get_all_teams(), content_type="application/json", status=200)
         except ObjectDoesNotExist as e:
             return HttpResponseNotFound(e)

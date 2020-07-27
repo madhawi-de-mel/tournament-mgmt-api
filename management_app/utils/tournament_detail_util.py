@@ -4,12 +4,20 @@ import math
 from django.db.models import Q
 
 from management_app.models import Player, Team, Match, Coach, Round, Tournament
-from management_app.serializers import TournamentDetailsSerializer
+from management_app.serializers import TournamentDetailsSerializer, TeamSerializer
 
 
 def get_all_teams():
-    """Return all teams"""
-    return Team.objects.all()
+    """Return all teams without average scores"""
+    teams = []
+    for team in Team.objects.all():
+        teams.append(TeamSerializer.get_dump_object(team))
+    return json.dumps(teams)
+
+
+def get_teams_with_details():
+    """Return all teams with average scores"""
+    return json.dumps(Team.objects.all())
 
 
 def get_team(team_id: int):

@@ -7,7 +7,7 @@ from django.utils import timezone
 class Coach(models.Model):
     name = models.CharField(max_length=200)
     experience = models.PositiveIntegerField(default=0)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -16,7 +16,7 @@ class Coach(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=200)
     average_score = models.FloatField(default=0)
-    coach = models.OneToOneField(Coach, on_delete=models.CASCADE, primary_key=True)
+    coach = models.OneToOneField(Coach, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -26,7 +26,7 @@ class Tournament(models.Model):
     name = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     year = models.PositiveIntegerField(default=0)
-    won_by = models.OneToOneField(Team, on_delete=models.CASCADE, null=True)
+    won_by = models.OneToOneField(Team, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -61,7 +61,7 @@ class Player(models.Model):
     average_score = models.FloatField(default=0)
     number_of_matches_played = models.PositiveIntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
 
 
 class PlayerPlayedMatch(models.Model):

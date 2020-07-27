@@ -4,12 +4,6 @@ from rest_framework import serializers
 from management_app.models import Team, Round, Match, UserProfile
 
 
-class TeamSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Team
-        fields = ['name']
-
-
 class RoundSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Round
@@ -26,13 +20,6 @@ class StatsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['login_count', 'time_spent', 'login_status']
-
-
-class IsActiveListSerializer(serializers.ListSerializer):
-
-    def to_representation(self, data):
-        # data = data.filter(is_active=1)
-        return super().to_representation(data)
 
 
 class UserSerializer(Serializer):
@@ -95,3 +82,13 @@ class TournamentDetailsSerializer(Serializer):
             }
         }
         return data
+
+
+class TeamSerializer(serializers.HyperlinkedModelSerializer):
+    @staticmethod
+    def get_dump_object(team, **kwargs):
+        mapped_team = {
+            'name': team.name,
+            'team_id': team.pk,
+        }
+        return mapped_team
