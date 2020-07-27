@@ -20,14 +20,19 @@ def get_team(team_id: int):
     return Team.objects.get(pk=team_id)
 
 
-def get_players(team_id: int = -1, player_id: int = -1):
+def get_all_players():
     """Return players"""
-    if player_id > -1:
-        return Player.objects.get(pk=player_id)
-    if team_id > -1:
-        return Player.objects.filter(team_id=team_id)
-
     return Player.objects.all()
+
+
+def get_player(player_id: int):
+    """Return player"""
+    return Player.objects.get(pk=player_id)
+
+
+def get_players_of_team(team_id: int):
+    """Return players of team"""
+    return Player.objects.filter(team_id=team_id)
 
 
 def get_best_players(team_id: int, percentile: int = 90):

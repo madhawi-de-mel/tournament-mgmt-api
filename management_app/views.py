@@ -10,7 +10,7 @@ from management_app.constants.user_group import UserGroup
 
 from management_app.utils.tournament_detail_util import get_best_players, get_team_of_coach, get_all_teams, \
     get_team, \
-    get_players, get_tournament_summary, get_coaches, get_coach_details
+    get_players_of_team, get_tournament_summary, get_coaches, get_coach_details, get_all_players, get_player
 from management_app.utils.site_statistics_util import get_site_statistics
 
 
@@ -85,17 +85,17 @@ class PlayerView(APIView):
         try:
             # if request is by an admin, all players are returned
             if Group.objects.get(user=request.user).name == UserGroup.ADMIN.value:
-                data = serializers.serialize('json', get_players())
+                data = serializers.serialize('json', get_all_players())
                 return HttpResponse(data, content_type="application/json", status=200)
 
             # if request is by a coach, results for his team is returned
             if Group.objects.get(user=request.user).name == UserGroup.COACH.value:
-                data = serializers.serialize('json', get_players(get_team_of_coach(request.user.id)))
+                data = serializers.serialize('json', get_players_of_team(get_team_of_coach(request.user.id)))
                 return HttpResponse(data, content_type="application/json", status=200)
 
             # if request is by a player, results for him is returned
             if Group.objects.get(user=request.user).name == UserGroup.PLAYER.value:
-                data = serializers.serialize('json', [get_players(request.user.player.team_id, request.user.player.id)])
+                data = serializers.serialize('json', [get_player(request.user.player.id)])
                 return HttpResponse(data, content_type="application/json", status=200)
             return HttpResponse('Unauthorized', status=401)
 
@@ -160,6 +160,7 @@ class CoachDetailView(APIView):
     @permission_required('management_app.view_coaches')
     def get(request, **kwargs):
         try:
-            return HttpResponse(serializers.serialize('json', [get_coach_details(kwargs.get('id'))]), content_type="application/json",status=200)
+            return HttpResponse(serializers.serialize('json', [get_coach_details(kwargs.get('id'))]),
+                                content_type="application/json", status=200)
         except ObjectDoesNotExist as e:
             return HttpResponseNotFound(e)
