@@ -4,25 +4,6 @@ from django.db import models
 from django.utils import timezone
 
 
-class Tournament(models.Model):
-    name = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    year = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return self.name
-
-
-class Round(models.Model):
-    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name="rounds")
-    name = models.CharField(max_length=200)
-    number_of_matches = models.PositiveIntegerField(default=0)
-    round_number = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return self.name
-
-
 class Coach(models.Model):
     name = models.CharField(max_length=200)
     experience = models.PositiveIntegerField(default=0)
@@ -36,6 +17,26 @@ class Team(models.Model):
     name = models.CharField(max_length=200)
     average_score = models.FloatField(default=0)
     coach = models.OneToOneField(Coach, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Tournament(models.Model):
+    name = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
+    year = models.PositiveIntegerField(default=0)
+    won_by = models.OneToOneField(Team, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Round(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name="rounds")
+    name = models.CharField(max_length=200)
+    number_of_matches = models.PositiveIntegerField(default=0)
+    round_number = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name

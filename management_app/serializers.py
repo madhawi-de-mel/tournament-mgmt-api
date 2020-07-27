@@ -89,5 +89,9 @@ class TournamentDetailsSerializer(Serializer):
             'year': tournament.year,
             'country': tournament.country,
             'rounds': round_array,
+            'won_by': {
+                'team_id': tournament.won_by.pk,
+                'team_name': tournament.won_by.name
+            }
         }
         return data

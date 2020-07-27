@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from management_app.services.tournament_detail_service import get_best_players, set_team_average, set_player_average_score
+from management_app.utils.tournament_detail_util import get_best_players, set_team_average, set_player_average_score
 
 
 class PlayerDetailsTest(TestCase):

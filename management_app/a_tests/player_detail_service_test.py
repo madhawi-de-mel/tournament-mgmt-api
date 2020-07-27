@@ -1,7 +1,7 @@
 # # import unittest
 # from django.test import TestCase
 #
-# from management_app.services.player_detail_service import PlayerDetailsService
+# from management_app.utils.player_detail_service import PlayerDetailsService
 #
 #
 # class PlayerDetailsTest(TestCase):

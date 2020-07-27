@@ -12,10 +12,10 @@ from management_app.models import Team, Round, Match
 from management_app.constants.user_group import UserGroup
 from management_app.serializers import TeamSerializer, RoundSerializer, TournamentDetailsSerializer
 
-from management_app.services.tournament_detail_service import get_best_players, get_team_of_coach, get_all_teams, \
+from management_app.utils.tournament_detail_util import get_best_players, get_team_of_coach, get_all_teams, \
     get_team, \
     get_players, get_tournament_summary
-from management_app.services.site_statistics_service import get_site_statistics
+from management_app.utils.site_statistics_util import get_site_statistics
 
 
 class RoundViewSet(viewsets.ModelViewSet):
