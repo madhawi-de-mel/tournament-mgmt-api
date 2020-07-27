@@ -1,22 +1,20 @@
 **Tournament Management System API**
 
-Python version - 3.8
+- Python version - 3.8
+- Requirements are added to *requirements.txt* file
 
 Execute the following command to run the system 
 
 `python manage.py runserver`
 
-Dummy data and sample users are created in system startup. Following dummy users are added to user groups
+Dummy data and sample users are created in system startup. Following dummy users are created.
 
-admin - username: admin
-        password: admin123
-
-coach - username: john
-        password: john123
-        
-player - username: andrew
-         password: andrew123   
+| group | user | psw |
+| ------ | ------ | ------ |
+| admin | admin | admin123 |
+| admin | super_user | super123 |
+| coach | john | john123 |
+| player | andrew | andrew123 |
+  
          
-A super user is created to access group and user information as an admin
-username: super_user
-password: super123     
+A super user is created to view group and user information (as an admin)
