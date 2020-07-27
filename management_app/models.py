@@ -14,7 +14,7 @@ class Tournament(models.Model):
 
 
 class Round(models.Model):
-    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name="rounds")
     name = models.CharField(max_length=200)
     number_of_matches = models.PositiveIntegerField(default=0)
     round_number = models.PositiveIntegerField(default=0)

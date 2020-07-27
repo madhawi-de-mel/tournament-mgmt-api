@@ -3,7 +3,7 @@ import math
 
 from django.db.models import Q
 
-from management_app.models import Player, Team, Match, Coach, Round
+from management_app.models import Player, Team, Match, Coach, Round, Tournament
 from management_app.serializers import TournamentDetailsSerializer
 
 
@@ -121,5 +121,6 @@ def set_won_by():
 
 def get_tournament_summary():
     """Return tournament summary(including rounds, matches)"""
-    rounds = Round.objects.all()
-    return json.dumps(TournamentDetailsSerializer.get_dump_object(rounds))
+    # tournament id can be sent as a parameter if multiple tournaments are hosted in the site
+    tournament = Tournament.objects.get()
+    return json.dumps(TournamentDetailsSerializer.get_dump_object(tournament))

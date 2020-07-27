@@ -52,18 +52,27 @@ class UserSerializer(Serializer):
 
 class TournamentDetailsSerializer(Serializer):
     @staticmethod
-    def get_dump_object(rounds, **kwargs):
+    def get_dump_object(tournament, **kwargs):
         round_array = []
-        for round_instance in rounds:
+        for round_instance in tournament.rounds.all():
             match_array = []
             for match in round_instance.matches.all():
                 mapped_match = {
                     'court_name': match.court_name,
-                    'team_one': match.team_one.name,
-                    'team_two': match.team_two.name,
+                    'team_one': {
+                        'team_id': match.team_one.pk,
+                        'team_name': match.team_one.name
+                    },
+                    'team_two': {
+                        'team_id': match.team_two.pk,
+                        'team_name': match.team_two.name
+                    },
                     'team_one_score': match.team_one_score,
                     'team_two_score': match.team_two_score,
-                    'won_by': match.won_by.name,
+                    'won_by': {
+                        'team_id': match.won_by.pk,
+                        'team_name': match.won_by.name
+                    },
                     'match_id': match.pk
                 }
                 match_array.append(mapped_match)
@@ -76,6 +85,9 @@ class TournamentDetailsSerializer(Serializer):
             }
             round_array.append(mapped_round)
         data = {
-            'rounds': round_array
+            'name': tournament.name,
+            'year': tournament.year,
+            'country': tournament.country,
+            'rounds': round_array,
         }
         return data
