@@ -16,7 +16,7 @@ class StartupMiddleware(object):
     logger = logging.getLogger(__name__)
 
     def __init__(self, param):
-        self.logger.info('Setup started')
+        self.logger.info('Startup: Setup started')
         call_command('makemigrations', 'management_app')
         call_command('migrate', 'management_app')
         call_command('migrate')
@@ -24,16 +24,16 @@ class StartupMiddleware(object):
         try:
             self.create_user_groups()
             self.create_users()
-            self.logger.info('Created users and groups')
+            self.logger.info('Startup: Created users and groups')
         except IntegrityError:
-            self.logger.info('Users already exists')
+            self.logger.info('Startup: Users already exist')
         # load data
         call_command('loaddata', 'tournament.json')
-        self.logger.info('Loaded data')
+        self.logger.info('Startup: Loaded data')
         set_team_average()
         set_player_average_score()
         set_won_by()
-        print('Setup complete')
+        print('Startup: Setup complete')
         raise MiddlewareNotUsed('Setup complete')
 
     def create_user_groups(self):

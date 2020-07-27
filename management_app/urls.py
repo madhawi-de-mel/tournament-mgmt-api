@@ -4,9 +4,6 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-# router.register(r'rounds', views.RoundViewSet)
-# router.register(r'matches', views.MatchViewSet)
-# router.register(r'teams', views.TeamDetailViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
