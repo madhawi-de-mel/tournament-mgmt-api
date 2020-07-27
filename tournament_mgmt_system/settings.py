@@ -46,7 +46,7 @@ REST_FRAMEWORK = {
     )
 }
 MIDDLEWARE = [
-    'management_app.middleware.startup.StartupMiddleware',
+    'management_app.middleware.startup_middleware.StartupMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

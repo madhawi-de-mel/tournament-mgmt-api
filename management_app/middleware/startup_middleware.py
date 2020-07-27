@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 
 from django.contrib.auth.models import Group, User, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -8,7 +7,6 @@ from django.core.management import call_command
 from django.db import IntegrityError
 from django.utils import timezone
 
-from management_app.constants import group_permission
 from management_app.constants.group_permission import GroupPermission
 from management_app.models import UserProfile
 from management_app.services.tournament_detail_service import set_player_average_score, set_team_average, set_won_by
@@ -22,12 +20,14 @@ class StartupMiddleware(object):
         call_command('makemigrations', 'management_app')
         call_command('migrate', 'management_app')
         call_command('migrate')
+        # create users and groups
         try:
             self.create_user_groups()
             self.create_users()
             self.logger.info('Created users and groups')
         except IntegrityError:
             self.logger.info('Users already exists')
+        # load data
         call_command('loaddata', 'tournament.json')
         self.logger.info('Loaded data')
         set_team_average()
