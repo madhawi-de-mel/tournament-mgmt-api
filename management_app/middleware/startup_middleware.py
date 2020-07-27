@@ -61,14 +61,13 @@ class StartupMiddleware(object):
                                               last_login=timezone.now())
         self.add_to_group('admin', super_user)
 
-        admin = User.objects.create_user('admin', 'admin.a@gmail.com', 'admin123', last_login=timezone.now(),
-                                         is_staff=True)
+        admin = User.objects.create_user('admin', 'admin.a@gmail.com', 'admin123', last_login=timezone.now())
         self.add_to_group('admin', admin)
 
-        p1 = User.objects.create_user('andrew', 'tt@tt.com', 'andrew123', last_login=timezone.now(), is_staff=True)
+        p1 = User.objects.create_user('andrew', 'tt@tt.com', 'andrew123', last_login=timezone.now())
         self.add_to_group('player', p1)
 
-        c1 = User.objects.create_user('john', 'tt@tt.com', 'john123', last_login=timezone.now(), is_staff=True)
+        c1 = User.objects.create_user('john', 'tt@tt.com', 'john123', last_login=timezone.now())
         self.add_to_group('coach', c1)
 
     def add_to_group(self, group_name, user):

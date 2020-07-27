@@ -15,4 +15,8 @@ coach - username: john
         password: john123
         
 player - username: andrew
-         password: andrew123        
+         password: andrew123   
+         
+A super user is created to access group and user information as an admin
+username: super_user
+password: super123     
