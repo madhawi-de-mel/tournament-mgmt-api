@@ -1,13 +1,18 @@
 **Tournament Management System API**
 
-Dummy data and sample users are created in startup
-
-`python3 -m venv env`
-
-`source env/bin/activate`  # On Windows use `env\Scripts\activate`
+Python version - 3.8
 
 Execute the following command to run the system 
 
 `python manage.py runserver`
 
-Python version - 3.8
+Dummy data and sample users are created in system startup. Following dummy users are added to user groups
+
+admin - username: admin
+        password: admin123
+
+coach - username: john
+        password: john123
+        
+player - username: andrew
+         password: andrew123        
