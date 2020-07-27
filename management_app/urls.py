@@ -14,5 +14,7 @@ urlpatterns = [
     path('teams/', views.TeamView.as_view(), name='teams'),
     path('teams/<int:id>/', views.TeamDetailView.as_view(), name='team_details'),
     path('players/', views.PlayerView.as_view(), name='players'),
+    path('coaches/', views.CoachView.as_view(), name='coaches'),
+    path('coaches/<int:id>/', views.CoachDetailView.as_view(), name='coach_details'),
 
 ]

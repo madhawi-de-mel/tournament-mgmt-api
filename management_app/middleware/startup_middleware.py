@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from django.utils import timezone
 
 from management_app.constants.group_permission import GroupPermission
-from management_app.models import UserProfile
+from management_app.models import UserProfile, Coach
 from management_app.utils.tournament_detail_util import set_player_average_score, set_team_average, set_won_by
 
 
@@ -85,9 +85,13 @@ class StartupMiddleware(object):
 
     @staticmethod
     def set_admin_permission(group):
-        content_type = ContentType.objects.get_for_model(UserProfile)
+
         view_stats = Permission(name='Can view site stats', codename=GroupPermission.STATS.value,
-                                content_type=content_type)
+                                content_type=ContentType.objects.get_for_model(UserProfile))
         view_stats.save()
+        view_coaches = Permission(name='Can view coach details', codename=GroupPermission.COACH.value,
+                                  content_type=ContentType.objects.get_for_model(Coach))
+        view_coaches.save()
         group.permissions.add(view_stats)
+        group.permissions.add(view_coaches)
         group.save()

@@ -90,5 +90,9 @@ class TeamSerializer(serializers.HyperlinkedModelSerializer):
         mapped_team = {
             'name': team.name,
             'team_id': team.pk,
+            'coach': {
+                'coach_id': team.coach.pk,
+                'coach_name': team.coach.name
+            }
         }
         return mapped_team

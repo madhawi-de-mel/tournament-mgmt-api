@@ -3,7 +3,7 @@ import math
 
 from django.db.models import Q
 
-from management_app.models import Player, Team, Match, Coach, Round, Tournament
+from management_app.models import Player, Team, Match, Coach, Tournament
 from management_app.serializers import TournamentDetailsSerializer, TeamSerializer
 
 
@@ -13,11 +13,6 @@ def get_all_teams():
     for team in Team.objects.all():
         teams.append(TeamSerializer.get_dump_object(team))
     return json.dumps(teams)
-
-
-def get_teams_with_details():
-    """Return all teams with average scores"""
-    return json.dumps(Team.objects.all())
 
 
 def get_team(team_id: int):
@@ -33,11 +28,6 @@ def get_players(team_id: int = -1, player_id: int = -1):
         return Player.objects.filter(team_id=team_id)
 
     return Player.objects.all()
-
-
-def get_player_details(player_id: int):
-    """Return details of the given player such as name, height, average score, number of matches"""
-    return Player.objects.get(pk=player_id)
 
 
 def get_best_players(team_id: int, percentile: int = 90):
@@ -132,3 +122,13 @@ def get_tournament_summary():
     # tournament id can be sent as a parameter if multiple tournaments are hosted in the site
     tournament = Tournament.objects.get()
     return json.dumps(TournamentDetailsSerializer.get_dump_object(tournament))
+
+
+def get_coaches():
+    """Return all coaches with details"""
+    return Coach.objects.all()
+
+
+def get_coach_details(coach_id):
+    """Return coaches details"""
+    return Coach.objects.get(pk=coach_id)
