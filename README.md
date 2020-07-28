@@ -9,7 +9,7 @@ Execute the following command to run the system
 
 Django Authentication System is used to manage users, groups and permissions
 
-Dummy data and sample users are created in system startup. Following dummy users are created.
+Dummy data and sample users are created in system startup (No extra commands are required). Following dummy users are created.
 
 | group | user | psw |
 | ------ | ------ | ------ |
