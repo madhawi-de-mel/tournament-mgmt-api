@@ -1,26 +1,6 @@
 from django.core.serializers.json import Serializer
 from rest_framework import serializers
 
-from management_app.models import Team, Round, Match, UserProfile
-
-
-class RoundSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Round
-        fields = ['name', 'number_of_matches', 'round_number', 'matches']
-
-
-class MatchSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Match
-        fields = ['round', 'court_name', 'team_one', 'team_two', 'team_one_score', 'team_two_score', 'won_by']
-
-
-class StatsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['login_count', 'time_spent', 'login_status']
-
 
 class UserSerializer(Serializer):
     @staticmethod
