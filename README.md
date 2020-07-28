@@ -23,7 +23,7 @@ A super user is created to view group and user information/permission through Dj
 
 **Endpoints**
 
-[http://127.0.0.1:8000/management_app/management_app/rounds/](http://127.0.0.1:8000/management_app/rounds/)
+[http://127.0.0.1:8000/management_app/rounds/](http://127.0.0.1:8000/management_app/rounds/)
 - Return all round, match details
 - Permitted groups: all groups, but login required
 
