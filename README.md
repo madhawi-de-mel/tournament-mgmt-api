@@ -18,7 +18,7 @@ Dummy data and sample users are created in system startup (No extra commands are
 | coach | john | john123 |
 | player | andrew | andrew123 |
   
-         
+Dummy coach and player are both in team-id: 1         
 A super user is created to view group and user information/permission through Django Admin Dashboard (http://127.0.0.1:8000/admin/)
 
 **Endpoints**
